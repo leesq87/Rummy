@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour {
 		distribution ();
 		Sort_Numbering ();
 		Continuous_Number ();
+		//Same_Number ();
 		ViewTile ();
 
 	}
@@ -36,6 +37,10 @@ public class GameManager : MonoBehaviour {
 			if(!doubleTile && color == 5){
 				doubleTile = true;
 				color = 1;
+			}
+
+			if(color == 5){
+				number = 100;
 			}
 
 			_Tile.Number = number;
@@ -170,18 +175,54 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Same_Number(){
-		int num = 1;
+		StaticList.Check _Check = new StaticList.Check ();
+		_Check.Number = 0;
+		_Check.TF = false;
+		StaticList.Checks.Add (_Check);
+		StaticList.Checks.Add (_Check);
+		StaticList.Checks.Add (_Check);
+		StaticList.Checks.Add (_Check);
+
+
+
 		for (int i = 0; i < StaticList.Player1.Count - 2; i++) {
+			
 			//등록 가능하지 않은 타일 중
 			if(!StaticList.Player1 [i].register){
+				StaticList.Checks [StaticList.Player1 [i].Color - 1].TF = true;
+				StaticList.Checks [StaticList.Player1 [i].Color - 1].Number = i;
+
 				for (int j = i + 1; j < StaticList.Player1.Count; j++) {
 					if(StaticList.Player1 [i].Number == StaticList.Player1 [j].Number){
+						if(!StaticList.Checks [StaticList.Player1 [j].Color-1].TF){
+							StaticList.Checks [StaticList.Player1 [j].Color-1].Number = j;
+							StaticList.Checks [StaticList.Player1 [j].Color-1].TF = true;
+						}
+					}
+				}
+
+				//같은 숫자 3개이상일 경우
+				int num = 0;
+				for(int m = 0; m < StaticList.Checks.Count; m++){
+					if(StaticList.Checks[m].TF){
 						num++;
 					}
 				}
-				//같은 숫자 3개이상일 경우
-				if(num >= 3){
 
+				if(num >= 3){
+					Debug.Log ("num : " + num);
+					for(int k = 0; k < 4; k++){
+						if(StaticList.Checks[k].TF){
+							StaticList.Player1 [StaticList.Checks [k].Number].register = true;
+						}
+					}
+				}
+
+				for(int k = 0; k < 4; k++){
+					if(StaticList.Checks[k].TF){
+						StaticList.Checks [k].TF = false;
+						StaticList.Checks [k].Number = 0;
+					}
 				}
 			}
 

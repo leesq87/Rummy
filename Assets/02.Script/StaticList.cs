@@ -11,6 +11,8 @@ public static class StaticList {
 	public static List<Tile> Player3 = new List<Tile> ();
 	public static List<Tile> Player4 = new List<Tile> ();
 
+	public static List<Check> Checks = new List<Check> ();
+
 	[System.SerializableAttribute]
 	public class Tile
 	{
@@ -21,5 +23,11 @@ public static class StaticList {
 
 		public int Start = 0;
 		public int End = 0;
+	}
+
+	public class Check
+	{
+		public int Number;
+		public bool TF;
 	}
 }
