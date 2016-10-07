@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour {
 		distribution ();
 		Sort_Numbering ();
 		Continuous_Number ();
-		//Same_Number ();
+		Same_Number ();
 		ViewTile ();
 
 	}
@@ -175,18 +175,14 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Same_Number(){
-		StaticList.Check _Check = new StaticList.Check ();
-		_Check.Number = 0;
-		_Check.TF = false;
-		StaticList.Checks.Add (_Check);
-		StaticList.Checks.Add (_Check);
-		StaticList.Checks.Add (_Check);
-		StaticList.Checks.Add (_Check);
-
-
+		for(int i=0; i<4; i++){
+			StaticList.Check _Check1 = new StaticList.Check ();
+			_Check1.Number = 0;
+			_Check1.TF = false;
+			StaticList.Checks.Add (_Check1);
+		}
 
 		for (int i = 0; i < StaticList.Player1.Count - 2; i++) {
-			
 			//등록 가능하지 않은 타일 중
 			if(!StaticList.Player1 [i].register){
 				StaticList.Checks [StaticList.Player1 [i].Color - 1].TF = true;
@@ -204,21 +200,21 @@ public class GameManager : MonoBehaviour {
 				//같은 숫자 3개이상일 경우
 				int num = 0;
 				for(int m = 0; m < StaticList.Checks.Count; m++){
-					if(StaticList.Checks[m].TF){
+					if(StaticList.Checks[m].TF == true){
 						num++;
 					}
 				}
 
 				if(num >= 3){
-					Debug.Log ("num : " + num);
-					for(int k = 0; k < 4; k++){
-						if(StaticList.Checks[k].TF){
+					for(int k = 0; k < StaticList.Checks.Count; k++){
+						if(StaticList.Checks[k].TF == true){
 							StaticList.Player1 [StaticList.Checks [k].Number].register = true;
+
 						}
 					}
 				}
 
-				for(int k = 0; k < 4; k++){
+				for(int k = 0; k < StaticList.Checks.Count; k++){
 					if(StaticList.Checks[k].TF){
 						StaticList.Checks [k].TF = false;
 						StaticList.Checks [k].Number = 0;
